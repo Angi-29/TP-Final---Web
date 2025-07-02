@@ -6,11 +6,12 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import junit.framework.Assert;
 import lippia.web.services.HomePageService;
-import lippia.web.services.MyAccountService;
+
 import lippia.web.services.ProductServices;
 import lippia.web.services.ShopService;
 
-import static org.bouncycastle.cms.RecipientId.password;
+import com.crowdar.core.Context;
+
 
 public class HomePageSteps {
     @Given("El usuario se encuentra en la pagina de la home")
@@ -65,11 +66,26 @@ public class HomePageSteps {
 
         Assert.assertTrue("[WARNING] El subtotal no es menor o igual al total. Subtotal: " + subtotal + ", Total: " + total,
                 subtotal <= total);
+        Context.getInstance().setData("subtotal", subtotal);
+        Context.getInstance().setData("total", total);
     }
 
 
-    @And("completa el formulario con sus datos {string},{string},{string},{string},{string},{string},{string},{string},{string}")
-    public void completaElFormularioConSusDatos(String firstName, String lastName, String email, String phone, String country, String address, String city, String state, String postCode) {
-        HomePageService.enterCredentials(firstName, lastName,email,phone,country,address,city,state,postCode);
+    @And("completa el formulario con sus datos {string},{string},{string},{string},{string},{string},{string},{string},{string},{string}")
+    public void completaElFormularioConSusDatos(String firstName, String lastName, String email, String phone, String country, String address, String city, String state, String postCode, String payMethod) {
+        HomePageService.enterCredentials(firstName, lastName, email, phone, country, address, city, state, postCode, payMethod);
+    }
+
+    @Then("visualiza los detalles de facturación, orden, adicionales y métodos de pago")
+    public void visualizaLosDetallesDeFacturaciónOrdenAdicionalesYMétodosDePago() {
+        String oderNumber = HomePageService.obtenerOderNumber();
+        String OrderTotal = HomePageService.obtenerOrderTotal();
+        String payMethod = HomePageService.obtenerOrderpayMethod();
+
+        Assert.assertNotNull("[WARNING] No se recupero el Numero de Orden", oderNumber);
+        String auxMetodoPagoSelecionado = (String) Context.getInstance().getData("payMethod");
+        Assert.assertEquals("[WARNING] No es el metodo de pago seleccionado " + auxMetodoPagoSelecionado, auxMetodoPagoSelecionado, payMethod);
+
+
     }
 }

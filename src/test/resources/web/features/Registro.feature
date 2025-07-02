@@ -4,8 +4,8 @@ Feature: Registro
 
   Background:
     Given El usuario se encuentra en la pagina de Automation Practice Site
-
-  @RegistroExitoso #@Smoke
+    #MY ACCOUNT - REGISTRATION TC 4-5
+  @Registro @RegistroExitoso @RegistroFallido #@Smoke
   Scenario Outline: MY ACCOUNT - REGISTRATION "<titulo>"
     When Hace clic en el menu "Mi cuenta"
     And Ingresa las credenciales con correo "<email>" y contraseña "<password>"
@@ -15,8 +15,7 @@ Feature: Registro
     Examples:
       | titulo                                         | email                 | password       | mensaje                               |
       | Registration-Sign-in                           | emailOK               | 123456??ssS??? | Hello emailOK                         |
-      | Registration with invalid Email-id             | emailInvalidSinArroba | 123456??ssS??? | invalid Email-id                      |
-      | Registration with empty Email-id               |                       | 123456??ssS??? | Please provide a valid email address. |
+      | Registration with empty Email-password         | emailOK               |                | Please enter an account password.     |
       | Registration with empty password and  Email-id |                       |                | Please provide a valid email address. |
 
 

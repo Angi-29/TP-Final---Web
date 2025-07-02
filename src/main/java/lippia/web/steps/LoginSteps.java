@@ -42,4 +42,10 @@ public class LoginSteps extends PageSteps {
     public void ingresaSuCorreoYContrasena(String email, String password) {
         MyAccountService.ingresarEmailPass(email, password);
     }
+
+    @Then("usuario visualiza el titulo {string}")
+    public void usuarioVisualizaElTexto(String msj) {
+
+        Assert.assertNotNull("[WARNING] No se visualiza el titulo " + msj, MyAccountService.buscarTitulo(msj));
+    }
 }

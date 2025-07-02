@@ -1,11 +1,12 @@
-@Login
 
 Feature: Login
 
   Background:
     Given El usuario se encuentra en la pagina de Automation Practice Site
 
-  @LoginExitoso #@Smoke
+
+    #MY ACCOUNT - LOGIN TC 7-8
+  @LoginExitoso @LoginFallido #@Smoke
   Scenario Outline: MY ACCOUNT - LOGIN - "<titulo>"
     When Hace clic en "Mi cuenta"
     And Ingresa su correo "<email>" y contrasena "<password>"
@@ -20,4 +21,14 @@ Feature: Login
       | Usuario no ingresa cuenta ni contrasena |                   |                | Username is required.                              |
       | Usuario ingresa password incorrecto     | emailOK@gmail.com | 123456??sss??? | The password you entered for the username          |
 
+
+
+  @LogOut #@Smoke
+  Scenario: MY ACCOUNT - LOGIN - Login - Authentication
+    Given Hace clic en "Mi cuenta"
+    And Ingresa su correo "emailOK@gmail.com" y contrasena "123456??ssS???"
+    And Hace clic en el boton "LOGIN" para continuar
+    And Se muestra el mensaje "emailOK"
+    When Hace clic en el boton "LogOut"
+    Then usuario visualiza el titulo "Login"
 

@@ -7,6 +7,8 @@ public class MyAccountConstants {
     public static final String BTN_REGISTER = "xpath://input[@name='register']";
     public static final String LBL_NOMBRE_CORREO = "xpath://p/strong[contains(text(), '%s')]";
     public static final String LBL_HELLO_LOGIN = "xpath://p[contains(text(), 'Hello')]";
+    public static final String BTN_LOGOUT = "xpath://a[text()='Sign out']";
+    public static final String LBL_TITULO = "xpath://h2[text()='%s']";
     public static String LBL_Error_MSJ = "xpath://*[contains(text(), 'Please provide a valid email address.')]";
 
     public static final String BTN_MI_CUENTA = "xpath://*[@id=\"menu-item-50\"]/a";

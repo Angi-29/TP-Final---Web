@@ -36,8 +36,8 @@ public class MyAccountService extends ActionManager {
             case "LOGIN":
                 WebActionManager.waitClickable(MyAccountConstants.BTN_LOGIN).click();
                 break;
-            case "opcion3":
-                System.out.println("Seleccionaste la opción 3");
+            case "LogOut":
+                WebActionManager.waitClickable(MyAccountConstants.BTN_LOGOUT).click();
                 break;
             default:
                 System.out.println("Opción no válida");
@@ -94,5 +94,11 @@ public class MyAccountService extends ActionManager {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static String buscarTitulo(String msj) {
+        String titulo = String.format(MyAccountConstants.LBL_TITULO, msj);
+
+        return WebActionManager.waitVisibility(titulo).getText();
     }
 }

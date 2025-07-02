@@ -1,5 +1,6 @@
 package lippia.web.services;
 
+import com.crowdar.core.Context;
 import com.crowdar.core.actions.WebActionManager;
 import com.crowdar.driver.DriverManager;
 import lippia.web.constants.HomePageConstants;
@@ -8,7 +9,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import utils.Select2Utils;
-
 
 
 import static com.crowdar.core.actions.ActionManager.getElement;
@@ -91,7 +91,7 @@ public class HomePageService {
     }
 
 
-    public static void enterCredentials(String firstName, String lastName, String email, String phone, String country, String address, String city, String state, String postCode) {
+    public static void enterCredentials(String firstName, String lastName, String email, String phone, String country, String address, String city, String state, String postCode, String payMethod) {
 
         WebActionManager.setInput(HomePageConstants.INPUT_FIRST_NAME, firstName);
         WebActionManager.setInput(HomePageConstants.INPUT_LAST_NAME, lastName);
@@ -99,43 +99,56 @@ public class HomePageService {
         WebActionManager.setInput(HomePageConstants.INPUT_PHONE, phone);
 
 
-        WebElement dropdown = WebActionManager.waitVisibility(HomePageConstants.SELECT_COUNTRY);
-
-        ((JavascriptExecutor) DriverManager.getDriverInstance())
-                .executeScript(
-                        "var evt = new MouseEvent('mousedown', {bubbles: true}); arguments[0].dispatchEvent(evt);",
-                        dropdown
-                );
-        if (dropdown == null) {
-            throw new RuntimeException("El elemento del dropdown no se encontró.");
-        }
-
-       // Select2Utils.seleccionarOpcion(HomePageConstants.SELECT_COUNTRY, country);
-       // String r = "/html/body/div[1]/div[2]/div/div/div/div/div[1]/form[3]/div[1]/div[1]/div/p[6]/select";
-        //WebElement dropdownElement = WebActionManager.waitVisibility("xpath:"+r);
-        // Crea un objeto Select utilizando el elemento dropdown
-        //Select dropdown = new Select(dropdownElement);
-        // Selecciona "Argentina" por su texto visible
-        //dropdown.selectByVisibleText("Argentina");
+        WebActionManager.waitClickable(HomePageConstants.SELECT_COUNTRY).click();
+        WebActionManager.waitVisibility(HomePageConstants.INPUT_SEARCH_COUNTRY).sendKeys(country);
+        WebActionManager.waitVisibility(HomePageConstants.SELECT_MATCH_COUNTRY).click();
 
         WebActionManager.setInput(HomePageConstants.INPUT_ADDRESS, address);
         WebActionManager.setInput(HomePageConstants.INPUT_CITY, city);
 
-        Select2Utils.seleccionarOpcion(HomePageConstants.SELECT_STATE, state);
-
+        WebActionManager.waitClickable(HomePageConstants.SELECT_STATE_COUNTRY).click();
+        WebActionManager.waitVisibility(HomePageConstants.INPUT_SEARCH_STATE_COUNTRY).sendKeys(state);
+        WebActionManager.waitVisibility(HomePageConstants.SELECT_MATCH_STATE_COUNTRY).click();
         WebActionManager.setInput(HomePageConstants.INPUT_POST_CODE, postCode);
+
+        //Metodo de pago
+        WebActionManager.waitClickable(seleccionarMetodoDePago(payMethod)).click();
+        //Guardo el metodo pago
+        Context.getInstance().setData("payMethod", payMethod);
+
+        WebActionManager.waitClickable(HomePageConstants.BTN_PLACE_ORDER).click();
+
+
     }
 
-    private void seleccionarOpcionSelect2(String dropdownLocator, String opcionVisible) {
-        WebElement dropdown = WebActionManager.getElement(dropdownLocator);
-        ((JavascriptExecutor) DriverManager.getDriverInstance())
-                .executeScript("var evt = new MouseEvent('mousedown', {bubbles: true}); arguments[0].dispatchEvent(evt);", dropdown);
+    private static String seleccionarMetodoDePago(String paymentMethod) {
+        switch (paymentMethod.trim()) {
+            case "Direct Bank Transfer":
+                return HomePageConstants.RBTN_Direct_Bank_Transfer;
+            case "Check Payments":
+                return HomePageConstants.RBTN_payment_method_cheque;
 
-        WebElement input = WebActionManager.getElement("css:.select2-input");
-        input.sendKeys(opcionVisible);
+            case "Cash on Delivery":
+                return HomePageConstants.RBTN_payment_method_cod;
 
-        WebElement option = WebActionManager.getElement("xpath://div[contains(@class,'select2-result-label') and text()='" + opcionVisible + "']");
-        option.click();
+            case "PayPal":
+                return HomePageConstants.RBTN_payment_method_ppec_paypal;
+
+            default:
+                throw new IllegalArgumentException("Método de pago no reconocido: " + paymentMethod);
+        }
+    }
+
+    public static String obtenerOderNumber() {
+        return  WebActionManager.waitVisibility(HomePageConstants.LBL_ORDER_NUMBER).getText();
+    }
+
+    public static String obtenerOrderTotal() {
+        return  WebActionManager.waitVisibility(HomePageConstants.LBL_ORDER_TOTAL).getText();
+    }
+
+    public static String obtenerOrderpayMethod() {
+        return  WebActionManager.waitVisibility(HomePageConstants.LBL_ORDER_PAYMETHOD).getText();
     }
 }
 
