@@ -35,9 +35,7 @@ public class RegistroService {
     }
 
     public static boolean buscarNombreCorreo(String email) {
-        //Separamos el correo en dos parte separado por el @
-        //en la posicion 0 del ventor esta el nombre del correo
-        //en la posicion 1 del ventor esta gmail.com
+
         String correo = email.split("@")[0];
 
         try {

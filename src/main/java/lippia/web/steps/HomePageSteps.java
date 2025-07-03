@@ -16,7 +16,7 @@ import com.crowdar.core.Context;
 public class HomePageSteps {
     @Given("El usuario se encuentra en la pagina de la home")
     public void elUsuarioSeEncuentraEnLaPaginaDeShop() {
-        ShopService.navegarWeb();
+        ShopService.navegarWebShop();
     }
 
 

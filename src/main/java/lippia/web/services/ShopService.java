@@ -16,24 +16,22 @@ import static com.crowdar.core.actions.WebActionManager.navigateTo;
 
 public class ShopService extends ActionManager {
     public static void navegarWeb() {
-        navigateTo(PropertyManager.getProperty("web.base.url"));
+        navigateTo(PropertyManager.getProperty("web.base.url.shop"));
     }
 
     public static void clicTituloProducto(String nomProducto) {
-        // Encontrar todos los elementos que coinciden con el selector
         List<WebElement> elementos = WebActionManager.getElements(ShopConstants.LISTA_LINK_PRODUCTO);
-        // Iterar sobre los elementos para encontrar el que contiene el texto específico en h3
+
         WebElement elementoDeseado = null;
         for (WebElement elemento : elementos) {
             WebElement h3 = elemento.findElement(By.tagName("h3"));
             if (h3.getText().equals(nomProducto)) {
                 elementoDeseado = elemento;
-                break; // Terminar la búsqueda una vez encontrado el elemento deseado
+                break;
             }
 
         }
-        // Hacer algo con el elemento deseado, por ejemplo, hacer clic en él, pero primero ubicamos el elemento en el sitio
-        // esto se hace para que las publicidades no interfiera.
+
         if (elementoDeseado != null) {
             JavascriptExecutor jse = DriverManager.getDriverInstance();
             jse.executeScript("arguments[0].scrollIntoView()", new Object[]{elementoDeseado});
@@ -45,17 +43,20 @@ public class ShopService extends ActionManager {
     }
 
     public static void ordenarProducto(String ordenarProducto) {
-        // Localizar el elemento <select>
+
         WebElement selectElemento = WebActionManager.waitVisibility(ShopConstants.SELECT_ORDER_ELEMENT);
-        // Crear objeto Select
         Select select = new Select(selectElemento);
-        // Seleccionar por texto visible
-        select.selectByVisibleText(ordenarProducto); // Cambiá esto según lo que quieras seleccionar
+        select.selectByVisibleText(ordenarProducto);
 
     }
 
     public static String obtenerPrimerElementoDeListaDeProducto() {
         WebElement titulo = WebActionManager.waitVisibility(ShopConstants.LBL_PRIMER_ELEMENTO_LISTA).findElement(By.tagName("h3"));
         return titulo.getText();
+    }
+
+    public static void navegarWebShop() {
+        navigateTo(PropertyManager.getProperty("web.base.url"));
+
     }
 }

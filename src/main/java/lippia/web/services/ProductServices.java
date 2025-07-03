@@ -47,7 +47,7 @@ public class ProductServices extends ActionManager {
     }
 
     public static String obtenerPrecioFinalDelProducto() {
-        //Recuperamos el valor final del producto y le quitamos el simbolo ₹
+
         return WebActionManager.waitVisibility(ProductContants.PRESIO_FINAL_PRODUCTO).getText().replace("₹", "");
     }
 

@@ -3,9 +3,7 @@ package lippia.web.services;
 import com.crowdar.core.PropertyManager;
 import com.crowdar.core.actions.ActionManager;
 import com.crowdar.core.actions.WebActionManager;
-import junit.framework.Assert;
 import lippia.web.constants.LoginConstants;
-import lippia.web.constants.RegistroConstants;
 
 import static com.crowdar.core.actions.WebActionManager.navigateTo;
 

@@ -3,7 +3,7 @@ Feature: Login
   Background:
     Given El usuario se encuentra en la pagina de shop
   #Shop
-  @AgregarProductoCarrito @Smoke
+  @AgregarProductoCarrito #@Smoke
   Scenario Outline: El usuario agrega "<cantProducto>" producto de "<nomProducto>"
     When el usuario hace clic en el producto "<nomProducto>" es redireccionado
     And el usuario esta en la pagina del producto "<nomProducto>" y agrega "<cantProducto>"

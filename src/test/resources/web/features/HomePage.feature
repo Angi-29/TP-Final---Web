@@ -3,7 +3,7 @@ Feature: Flujo de compra
   Background:
     Given El usuario se encuentra en la pagina de la home
 
-  @E2E @Compra #@Smoke
+  @E2E @Compra @Smoke
     #Home Page - TC:17/18. Home-Arrivals-Add to Basket-Items-Check-out-Payment Gateway
   Scenario Outline: Comprar un libro desde la home
     When verifica que existan 3 articulos en la sección de Arrivals

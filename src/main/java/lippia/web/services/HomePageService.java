@@ -7,8 +7,7 @@ import lippia.web.constants.HomePageConstants;
 import lippia.web.pages.HomePage;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-import utils.Select2Utils;
+
 
 
 import static com.crowdar.core.actions.ActionManager.getElement;
@@ -33,11 +32,9 @@ public class HomePageService {
         WebElement elementoDeseado = getElement(xpathProducto);
 
         if (elementoDeseado != null) {
-            // Scroll hasta el elemento
             JavascriptExecutor jse = (JavascriptExecutor) DriverManager.getDriverInstance();
             jse.executeScript("arguments[0].scrollIntoView(true);", elementoDeseado);
 
-            // Click forzado con JS para evitar elementos solapados
             jse.executeScript("arguments[0].click();", elementoDeseado);
         } else {
             throw new RuntimeException("No se encontró el producto: " + nomProducto);
@@ -111,9 +108,9 @@ public class HomePageService {
         WebActionManager.waitVisibility(HomePageConstants.SELECT_MATCH_STATE_COUNTRY).click();
         WebActionManager.setInput(HomePageConstants.INPUT_POST_CODE, postCode);
 
-        //Metodo de pago
+
         WebActionManager.waitClickable(seleccionarMetodoDePago(payMethod)).click();
-        //Guardo el metodo pago
+
         Context.getInstance().setData("payMethod", payMethod);
 
         WebActionManager.waitClickable(HomePageConstants.BTN_PLACE_ORDER).click();
